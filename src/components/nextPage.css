@@ -1,0 +1,29 @@
+/* General Styles for the Next Page */
+.next-page-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f4f8; /* Light background to differentiate from the form page */
+}
+
+.next-page-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 500px; /* You can adjust based on preference */
+}
+
+.next-page-box h1 {
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.next-page-box p {
+  font-size: 1rem;
+  color: #333;
+}
