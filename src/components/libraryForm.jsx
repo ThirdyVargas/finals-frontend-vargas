@@ -1,45 +1,6 @@
 import "./libraryForm.css";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-// InputField Component
-const InputField = ({ label, type, name, placeholder, value, onChange, required }) => (
-    <div className="form-field">
-        <label htmlFor={name}>{label}</label>
-        <input
-            type={type}
-            id={name}
-            name={name}
-            placeholder={placeholder}
-            value={value}
-            onChange={onChange}
-            required={required}
-        />
-    </div>
-);
-
-// SelectField Component
-const SelectField = ({ label, name, value, options, onChange, required }) => (
-    <div className="form-field">
-        <label htmlFor={name}>{label}</label>
-        <select
-            id={name}
-            name={name}
-            value={value}
-            onChange={onChange}
-            required={required}
-        >
-            <option value="">Select {label}</option>
-            {options.map((option, idx) => (
-                <option key={idx} value={option.value}>
-                    {option.label}
-                </option>
-            ))}
-        </select>
-    </div>
-);
-
-// Main Form Component
 const LibraryForm = () => {
     const [formData, setFormData] = useState({
         name: "",
@@ -49,28 +10,26 @@ const LibraryForm = () => {
         year: "",
     });
 
-    const navigate = useNavigate();
-
-    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: value, 
         });
     };
 
-    // Validate form data
-    const validateForm = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Check if studentNumber is empty
         if (!formData.studentNumber) {
             alert("Student Number is required");
-            return false;
+            return;
         }
-        return true;
-    };
 
-    // Reset form data
-    const resetForm = () => {
+        console.log(formData);
+
+        // Clear form data
         setFormData({
             name: "",
             studentNumber: "",
@@ -80,19 +39,10 @@ const LibraryForm = () => {
         });
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!validateForm()) return;
-
-        console.log(formData);
-
-        // Navigate to the next page after submission
-        navigate("/nextPage");
-
-        // Reset form data after submission
-        resetForm();
+    const handleButtonClick = () => {
+        if (!formData){
+            alert("Need to Sign in first!");
+        };
     };
 
     return (
@@ -100,80 +50,105 @@ const LibraryForm = () => {
             <div className="form-card">
                 <h1>PUPBC LIBRARY</h1>
                 <p style={{ fontStyle: "italic" }}>Nothing is pleasanter than exploring a library</p>
-
                 <form onSubmit={handleSubmit}>
+
                     {/* Name */}
-                    <InputField
-                        label="Name"
-                        type="text"
-                        name="name"
-                        placeholder="Enter your name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
+                    <div className="form-field">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
                     {/* Student Number */}
-                    <InputField
-                        label="Student Number"
-                        type="text"
-                        name="studentNumber"
-                        placeholder="Enter your Student Number"
-                        value={formData.studentNumber}
-                        onChange={handleChange}
-                        required
-                    />
+                    <div className="form-field">
+                        <label htmlFor="studentNumber">Student Number</label>
+                        <input
+                            type="text"
+                            id="studentNumber"
+                            name="studentNumber" // Fix the name attribute here
+                            placeholder="Enter your Student Number"
+                            value={formData.studentNumber}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
                     {/* Month */}
-                    <SelectField
-                        label="Month"
-                        name="month"
-                        value={formData.month}
-                        onChange={handleChange}
-                        required
-                        options={[
-                            { value: "1", label: "January" },
-                            { value: "2", label: "February" },
-                            { value: "3", label: "March" },
-                            { value: "4", label: "April" },
-                            { value: "5", label: "May" },
-                            { value: "6", label: "June" },
-                            { value: "7", label: "July" },
-                            { value: "8", label: "August" },
-                            { value: "9", label: "September" },
-                            { value: "10", label: "October" },
-                            { value: "11", label: "November" },
-                            { value: "12", label: "December" },
-                        ]}
-                    />
+                    <div className="form-field">
+                        <label htmlFor="month">Month</label>
+                        <select
+                            id="month"
+                            name="month"
+                            value={formData.month}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Birth Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
 
                     {/* Day */}
-                    <SelectField
-                        label="Day"
-                        name="day"
-                        value={formData.day}
-                        onChange={handleChange}
-                        required
-                        options={Array.from({ length: 31 }, (_, i) => ({
-                            value: (i + 1).toString(),
-                            label: (i + 1).toString(),
-                        }))}
-                    />
+                    <div className="form-field">
+                        <label htmlFor="day">Day</label>
+                        <select
+                            id="day"
+                            name="day"
+                            value={formData.day}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Birth Day</option>
+                            {Array.from({ length: 31 }, (_, i) => (
+                                <option key={i + 1} value={i + 1}>
+                                    {i + 1}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
                     {/* Year */}
-                    <SelectField
-                        label="Year"
-                        name="year"
-                        value={formData.year}
-                        onChange={handleChange}
-                        required
-                        options={Array.from({ length: 100 }, (_, i) => ({
-                            value: (i + 1920).toString(),
-                            label: (i + 1920).toString(),
-                        }))}
-                    />
+                    <div className="form-field">
+                        <label htmlFor="year">Year</label>
+                        <select
+                            id="year"
+                            name="year"
+                            value={formData.year}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Birth Year</option>
+                            {Array.from({ length: 100 }, (_, i) => (
+                                <option key={i + 1920} value={i + 1920}>
+                                    {i + 1920}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                    <button type="submit" className="Enter-btn">
+                    <button
+                        type="submit"
+                        className="Enter-btn"
+                        onClick={handleButtonClick} // Attach the function to the button
+                    >
                         Sign in
                     </button>
                 </form>
